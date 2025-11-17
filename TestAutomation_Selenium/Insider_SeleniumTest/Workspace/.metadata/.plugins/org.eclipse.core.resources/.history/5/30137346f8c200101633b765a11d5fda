@@ -1,0 +1,12 @@
+# Author: Ajit Nakum
+
+LaunchApplication=False
+CompanyMenu=False
+CareersQAJobs=True
+browser=chrome
+PropertyPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\src\\main\\java\\Utility\\configuration\\Configuraion.properties
+Test_URL=https://useinsider.com/
+Test_CareerURL=https://useinsider.com/careers/quality-assurance/
+emailaddress=nakumajit@gmail.com;nakumajit@yahoo.com
+reportPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\Reports
+

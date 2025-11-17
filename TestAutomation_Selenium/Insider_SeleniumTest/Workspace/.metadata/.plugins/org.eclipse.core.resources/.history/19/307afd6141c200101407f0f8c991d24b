@@ -1,0 +1,130 @@
+package Implementation;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Properties;
+import org.testng.annotations.Test;
+import PO.BCSDATA.CompanyMenu_Po;
+import PO.BCSDATA.OpenInsiderApp_Po;
+import PO.CommonFunctionality.BaseClass;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.configuration.ConfigReader;
+
+
+public class InsiderApp_Test extends BaseClass {
+
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	String uname;
+	String pass;
+	boolean TestStepStatus;
+
+	@Test(priority = 1)
+	public void Insider_HomePage() throws InterruptedException, IOException {
+
+		try {
+			// Load properties
+			ConfigReader.loadConfig();
+			properties = ConfigReader.properties;
+
+			if (properties.getProperty("LaunchApplication").equalsIgnoreCase("True")) {
+
+				OpenInsiderApp_Po oi = new OpenInsiderApp_Po(driver);
+
+				cf.Info("Visit https://useinsider.com/ and check Insider home page is opened or not.");
+
+				String URL = properties.getProperty("Test_URL");
+				driver.get(URL);
+				Thread.sleep(2000);
+
+				TestStepStatus = oi.Validate_Application();
+				Thread.sleep(2000);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 2)
+	public void Validate_CompanyMenu() throws InterruptedException {
+
+		try {
+
+			if (properties.getProperty("CompanyMenu").equalsIgnoreCase("True")) {
+
+				CompanyMenu_Po cm = new CompanyMenu_Po(driver);
+
+				cf.Info("Select the Company menu in the navigation bar, select Careers and check Career page, its Locations, Teams, and Life at Insider blocks are open or not.");
+
+				TestStepStatus = cm.Select_Careers();
+				Thread.sleep(2000);
+				
+				TestStepStatus = cm.Validate_Locations();
+				Thread.sleep(2000);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String getDecryptedPassword(String pass) {
+		if (!isEncrypted(pass)) {
+			return pass; // plain text password
+		}
+		return decrypt(pass);
+	}
+
+	private static boolean isEncrypted(String data) {
+		try {
+			byte[] decoded = Base64.getDecoder().decode(data);
+			return new String(decoded).matches("^[a-zA-Z0-9@#._-]+$");
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static void saveEncryptedCredentials() {
+
+		String propertiesFilePath = properties.getProperty("PropertyPath");
+
+		try {
+
+			Properties properties = new Properties();
+			FileInputStream inStream = new FileInputStream(propertiesFilePath);
+			properties.load(inStream);
+
+			String password = properties.getProperty("AdminPassword");
+
+			if (isEncrypted(password)) {
+				System.out.println("Value is already encrypted.");
+				System.out.println("Decrypted value: " + decrypt(password));
+			} else {
+				System.out.println("Value is not encrypted.");
+				String encryptedValue = encrypt(password);
+
+				properties.setProperty("AdminPassword", encryptedValue);
+
+				FileOutputStream outStream = new FileOutputStream(propertiesFilePath);
+				properties.store(outStream, "Encrypted Credentials");
+				outStream.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static String encrypt(String value) {
+		return Base64.getEncoder().encodeToString(value.getBytes());
+	}
+
+	public static String decrypt(String encryptedValue) {
+		return new String(Base64.getDecoder().decode(encryptedValue));
+	}
+}

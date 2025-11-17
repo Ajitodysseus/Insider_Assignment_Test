@@ -1,0 +1,128 @@
+package PO.BCSDATA;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+public class CompanyMenu_Po extends ExtentRepotEx {
+
+	public WebDriver driver;
+
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	ImagecaptureConfig img = new ImagecaptureConfig();
+
+	int WaitSeconds = 15;
+
+	int stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+	int printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+
+	public CompanyMenu_Po(WebDriver driver) {
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+
+		stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+		printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+	}
+
+	// Company tab Elements
+	By Company = By.xpath("//a[@id='navbarDropdownMenuLink' and contains(text(), 'Company')]");
+	By Careers = By.xpath("//a[@class='dropdown-sub' and contains(text(), 'Careers')]");
+
+	// Location Elements
+	By OurLocations = By.xpath("//section[@id='career-our-location']//h3[contains(text(), 'Our Locations')]");
+	By SlideLocations = By.xpath("//li[@class='glide__slide']");
+	
+	
+	
+	By patientstab = By.xpath("//span[@class='ng-star-inserted' and contains(text(),'Patients')]");
+	By reportstab = By.xpath("//span[@class='ng-star-inserted' and contains(text(),'Reports')]");
+	By unitfiltertab = By.xpath("//span[@class='ng-star-inserted' and contains(text(),'Unit Filter')]");
+	By providerreportstab = By.xpath("//a[@href='/DowntimeV2_Test/providerreport']");
+	By admintab = By.xpath("//span[text()='Admin ']");
+	By registariontab = By.xpath("//span[text()='Register Patient ']");
+	By surgicalscheduletab = By.xpath("//span[text()='Surgical Schedule']");
+	By appointmenttab = By.xpath("//span[text()='Appointment']");
+	By helptab = By.xpath("//span[text()='Help']");
+
+
+	// **********************************************************************************
+
+	public boolean Select_Careers() throws InterruptedException {
+		try {
+			
+			WebElement cmpny = driver.findElement(Company);
+			WebElement creer = driver.findElement(Careers);
+			
+			Actions action = new Actions(driver);
+			action.moveToElement(cmpny).perform();
+			action.moveToElement(creer).click().perform();
+			Thread.sleep(stdwait);
+
+			if (cb.isDisplayed(OurLocations) == true) {
+				cf.pass("Career is selected successfully under the comapny tab.");
+				return true;
+			}
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Validate_Locations() throws InterruptedException {
+		try {
+			
+			WebElement slider = driver.findElement(SlideLocations);
+			
+			List<WebElement> captions = driver.findElements(By.xpath("//div[@class='slide']//h3"));
+
+			for (WebElement caption : captions) {
+			    System.out.println("Locations: " +caption.getText());
+			}
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			for (int i = 0; i < 5; i++) {
+			    js.executeScript("arguments[0].scrollLeft += 400;", slider);
+			    Thread.sleep(800);
+			}
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+
+}

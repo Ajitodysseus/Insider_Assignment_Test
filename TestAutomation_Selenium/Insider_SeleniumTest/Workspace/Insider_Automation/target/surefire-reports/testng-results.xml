@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2025-11-16T14:36:35Z" name="Suite" finished-at="2025-11-16T14:38:37Z" duration-ms="121264">
+    <groups>
+    </groups>
+    <test started-at="2025-11-16T14:36:35Z" name="Test" finished-at="2025-11-16T14:38:37Z" duration-ms="121264">
+      <class name="Implementation.InsiderApp_Test">
+        <test-method is-config="true" signature="beforesuitreport()[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:33Z" name="beforesuitreport" finished-at="2025-11-16T14:36:34Z" duration-ms="163" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforesuitreport -->
+        <test-method is-config="true" signature="setUp()[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:34Z" name="setUp" finished-at="2025-11-16T14:36:35Z" depends-on-methods="Utility.ExtentReports.ExtentRepotEx.beforesuitreport" duration-ms="1677" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method is-config="true" signature="reportconfiguration(java.lang.reflect.Method)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:35Z" name="reportconfiguration" finished-at="2025-11-16T14:36:35Z" duration-ms="15" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void Implementation.InsiderApp_Test.Insider_HomePage() throws java.lang.InterruptedException,java.io.IOException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- reportconfiguration -->
+        <test-method signature="Insider_HomePage()[pri:1, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:35Z" name="Insider_HomePage" finished-at="2025-11-16T14:36:53Z" duration-ms="17610" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Insider_HomePage -->
+        <test-method is-config="true" signature="endTest(org.testng.ITestResult)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:53Z" name="endTest" finished-at="2025-11-16T14:36:54Z" duration-ms="891" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Insider_HomePage status=SUCCESS method=InsiderApp_Test.Insider_HomePage()[pri:1, instance:Implementation.InsiderApp_Test@1df8da7a] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endTest -->
+        <test-method signature="Validate_CompanyMenu()[pri:2, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:54Z" name="Validate_CompanyMenu" finished-at="2025-11-16T14:37:49Z" duration-ms="55391" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Validate_CompanyMenu -->
+        <test-method is-config="true" signature="reportconfiguration(java.lang.reflect.Method)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:36:54Z" name="reportconfiguration" finished-at="2025-11-16T14:36:54Z" duration-ms="0" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void Implementation.InsiderApp_Test.Validate_CompanyMenu() throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- reportconfiguration -->
+        <test-method is-config="true" signature="endTest(org.testng.ITestResult)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:37:49Z" name="endTest" finished-at="2025-11-16T14:37:49Z" duration-ms="79" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Validate_CompanyMenu status=SUCCESS method=InsiderApp_Test.Validate_CompanyMenu()[pri:2, instance:Implementation.InsiderApp_Test@1df8da7a] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endTest -->
+        <test-method is-config="true" signature="reportconfiguration(java.lang.reflect.Method)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:37:49Z" name="reportconfiguration" finished-at="2025-11-16T14:37:49Z" duration-ms="0" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void Implementation.InsiderApp_Test.Validate_QAJobs() throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- reportconfiguration -->
+        <test-method signature="Validate_QAJobs()[pri:3, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:37:49Z" name="Validate_QAJobs" finished-at="2025-11-16T14:38:25Z" duration-ms="35863" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Validate_QAJobs -->
+        <test-method is-config="true" signature="endTest(org.testng.ITestResult)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:25Z" name="endTest" finished-at="2025-11-16T14:38:25Z" duration-ms="88" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Validate_QAJobs status=SUCCESS method=InsiderApp_Test.Validate_QAJobs()[pri:3, instance:Implementation.InsiderApp_Test@1df8da7a] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endTest -->
+        <test-method signature="Validate_All_QAJobs_Contains()[pri:4, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:25Z" name="Validate_All_QAJobs_Contains" finished-at="2025-11-16T14:38:27Z" duration-ms="2074" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Validate_All_QAJobs_Contains -->
+        <test-method is-config="true" signature="reportconfiguration(java.lang.reflect.Method)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:25Z" name="reportconfiguration" finished-at="2025-11-16T14:38:25Z" duration-ms="0" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void Implementation.InsiderApp_Test.Validate_All_QAJobs_Contains() throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- reportconfiguration -->
+        <test-method is-config="true" signature="endTest(org.testng.ITestResult)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:27Z" name="endTest" finished-at="2025-11-16T14:38:27Z" duration-ms="80" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Validate_All_QAJobs_Contains status=SUCCESS method=InsiderApp_Test.Validate_All_QAJobs_Contains()[pri:4, instance:Implementation.InsiderApp_Test@1df8da7a] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endTest -->
+        <test-method is-config="true" signature="reportconfiguration(java.lang.reflect.Method)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:27Z" name="reportconfiguration" finished-at="2025-11-16T14:38:27Z" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void Implementation.InsiderApp_Test.Validate_ViewRole() throws java.lang.InterruptedException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- reportconfiguration -->
+        <test-method signature="Validate_ViewRole()[pri:5, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:27Z" name="Validate_ViewRole" finished-at="2025-11-16T14:38:37Z" duration-ms="9055" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Validate_ViewRole -->
+        <test-method is-config="true" signature="endTest(org.testng.ITestResult)[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:37Z" name="endTest" finished-at="2025-11-16T14:38:37Z" duration-ms="68" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=Validate_ViewRole status=SUCCESS method=InsiderApp_Test.Validate_ViewRole()[pri:5, instance:Implementation.InsiderApp_Test@1df8da7a] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endTest -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:37Z" name="tearDown" finished-at="2025-11-16T14:38:37Z" duration-ms="622" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="teanDown()[pri:0, instance:Implementation.InsiderApp_Test@1df8da7a]" started-at="2025-11-16T14:38:37Z" name="teanDown" finished-at="2025-11-16T14:38:37Z" depends-on-methods="PO.CommonFunctionality.BaseClass.tearDown" duration-ms="117" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- teanDown -->
+      </class> <!-- Implementation.InsiderApp_Test -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>

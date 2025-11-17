@@ -1,0 +1,25 @@
+package Utility.configuration;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+
+//Ajit Nakum
+public class ConfigReader {
+
+    public static Properties properties;
+
+    public static void loadConfig() {
+        try {
+            properties = new Properties();   // initialize properties object
+
+            FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/Configuration.properties");
+
+            properties.load(fis);
+            
+  
+        } catch (Exception e) {
+            System.out.println("Error loading properties file: " + e);
+        }
+    }
+
+}

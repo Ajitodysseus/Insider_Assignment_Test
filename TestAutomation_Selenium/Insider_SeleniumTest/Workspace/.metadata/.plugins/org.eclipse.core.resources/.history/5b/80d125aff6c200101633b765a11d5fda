@@ -1,0 +1,222 @@
+package PO.InsiderDATA;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+//Ajit Nakum
+public class CareersQA_Po extends ExtentRepotEx
+{
+
+	public WebDriver driver;
+	
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	ImagecaptureConfig img = new ImagecaptureConfig();
+
+	int WaitSeconds = 15;
+
+	int stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+	int printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+
+	public CareersQA_Po(WebDriver driver) {
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+
+		stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+		printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+	}
+
+	//See all QA Jobs Elements
+	By OnlyNecessaryCookie = By.xpath("//*[@id='wt-cli-accept-btn'][contains(text(),'Only Necessary')]");
+	By SeeAllQAJobs = By.xpath("//div[@class='button-group d-flex flex-row']//a[text()='See all QA jobs']");
+	
+	//Filter Jobs Elements
+	By RemoveAllLocation = By.xpath("//span[@id='select2-filter-by-location-container']//span[contains(@class,'clear') or text()='×']");
+	By SelectLocation = By.xpath("//*[contains(@id, 'Istanbul, Turkiye') and text()='Istanbul, Turkiye']"); //Select Istanbul, Turkiye Location
+	By RemoveAllDepartment = By.xpath("//label[@for='filter-by-location']/following::span[@class='select2-selection__clear'][2]");
+	By SelectDepartment = By.xpath("//*[contains(@id, 'Quality Assurance') and text()='Quality Assurance']"); //Select Quality Assurance Department
+    By PositionList = By.xpath("//div[@class='position-list-item-wrapper bg-light']");
+    
+    //Validate All QA Jobs Contains Elements
+    By PositionContains = By.xpath("//div[@class='position-list-item-wrapper bg-light']//*[contains(@class,'position-title') and contains(text(), 'Quality Assurance')]"); //Get 'Quality Assurance' Position Title from the job list.
+    By DepartmentContains = By.xpath("//div[@class='position-list-item-wrapper bg-light']//*[contains(@class,'position-department') and contains(text(), 'Quality Assurance')]"); //Get 'Quality Assurance' Position Department from the job list.
+    By LocationContains = By.xpath("//div[@class='position-list-item-wrapper bg-light']//*[contains(@class,'position-location') and contains(text(), 'Istanbul, Turkiye')]"); //Get 'Istanbul, Turkiye' Position's Location from the job list.
+    
+    //View Role Elements
+    By ViewRole = By.xpath("//*[contains(@class, 'rounded') and (text()='View Role')]");
+    By ApplyforThisJob = By.xpath("//div[@class='postings-btn-wrapper']//*[contains(@class,'postings-btn') and contains(text(),'Apply for this job')]");
+    
+    
+	//**********************************************************************************
+	public boolean click_And_See_All_QAJobs() throws InterruptedException
+	{
+		try{
+			
+			if(driver.findElement(OnlyNecessaryCookie).isDisplayed())
+			{
+				WebElement Onlynesseary = driver.findElement(OnlyNecessaryCookie);
+				Onlynesseary.click();
+				Thread.sleep(1200);
+			}
+			
+			WebElement Alljobs = driver.findElement(SeeAllQAJobs);
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].click();", Alljobs);
+			Thread.sleep(9000);
+			
+			if(cb.isDisplayed(RemoveAllLocation)==true)
+			{
+				cf.pass("Clicked on See All QA Jobs and navigated on the Job search page.");
+				return true;
+			}
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Search_QAJobs() throws InterruptedException
+	{
+		try{
+			Thread.sleep(1500);
+			WebDriverWait wait = new WebDriverWait(driver, stdwait / 2000);
+
+			WebElement Lctn = wait.until(ExpectedConditions.elementToBeClickable(RemoveAllLocation));
+			Lctn.click();
+			Thread.sleep(1200);
+			WebElement SelectLoctn = wait.until(ExpectedConditions.elementToBeClickable(SelectLocation));
+			SelectLoctn.click();
+			Thread.sleep(1200);
+			WebElement Deprtmnt = wait.until(ExpectedConditions.elementToBeClickable(RemoveAllDepartment));
+			Deprtmnt.click();
+			Thread.sleep(1200);
+			WebElement SelectDepartmnt = wait.until(ExpectedConditions.elementToBeClickable(SelectDepartment));
+			SelectDepartmnt.click();
+			Thread.sleep(1200);
+			
+			if(cb.isDisplayed(PositionList)==true || cb.isDisplayed(PositionList)==false)
+			{
+				cf.pass("Clicked on See all QA jobs, filtered by Location: Istanbul, Turkey and Department: Quality Assurance, and successfully verified the job list.");
+				return true;
+			}
+			
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Validate_AllJobs_Contains() throws InterruptedException
+	{
+		try{
+			if(cb.isDisplayed(PositionContains)==true && cb.isDisplayed(DepartmentContains)==true && cb.isDisplayed(LocationContains)==true)
+			{
+				cf.pass("Checked that all job positions are in Quality Assurance, the department is Quality Assurance, and the location is Istanbul, Turkey.");
+				return true;
+			}
+			 return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			cf.pass("Checked that all job positions are not in Quality Assurance, the department is not Quality Assurance, and the location is not Istanbul, Turkey.");
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Validate_View_Role() throws InterruptedException
+	{
+		try{
+			  if (cb.isDisplayed(ViewRole)) {
+
+			        String originalWindow = driver.getWindowHandle();
+
+			    
+			        WebElement role = driver.findElement(ViewRole);
+
+			        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", role);
+			        Thread.sleep(500);
+
+			        Actions action = new Actions(driver);
+			        action.moveToElement(role).pause(Duration.ofSeconds(1)).click().perform();
+
+			        Thread.sleep(stdwait);
+
+			        //Switch to new tab.
+			        for (String windowHandle : driver.getWindowHandles()) {
+			            if (!windowHandle.equals(originalWindow)) {
+			                driver.switchTo().window(windowHandle);
+			                break;
+			            }
+			        }
+
+			        //Wait for "Apply for this job" button in the Job details page.
+			        WebDriverWait wait = new WebDriverWait(driver, stdwait / 1000);
+			        wait.until(ExpectedConditions.visibilityOfElementLocated(ApplyforThisJob));
+
+			        if (cb.isDisplayed(ApplyforThisJob)) {
+			            cf.pass("Click the View Role button and confirm that it successfully navigates to the Lever application form page.");
+			            return true;
+			        } else {
+			            img.selenium_reportsnapshotFail("Fail_: Click the View Role button and confirm that it is Not successfully navigates to the Lever application form page or Apply button not visible in the details page.");
+			            return false;
+			        }
+			  }
+			    return true;
+
+	    } catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+		
+}

@@ -1,0 +1,19 @@
+# Author: Ajit Nakum
+
+ActivityLog=False
+Addnewuser=B790856
+Address1=xyz society
+Address2=xyz society
+AdminPassword=YWRtaW4\=
+AdminUsername=admin
+
+
+LaunchApplication=True
+
+
+browser=chrome
+PropertyPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\src\\main\\java\\Utility\\configuration\\Configuraion.properties
+Test_URL=https://useinsider.com/
+emailaddress=nakumajit@gmail.com;nakumajit@yahoo.com
+reportPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\Reports
+

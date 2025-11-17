@@ -1,0 +1,13 @@
+# Author: Ajit Nakum
+
+#Based on the flag(True or False) functionality will be executed.if True the execute, if False then it will skipped/not executed.
+LaunchApplication=True 
+CompanyMenu=True
+CareersQAJobs=True
+browser=chrome
+PropertyPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\src\\main\\resources\\Configuration.properties
+Test_URL=https://useinsider.com/
+Test_CareerURL=https://useinsider.com/careers/quality-assurance/
+emailaddress=nakumajit@gmail.com;nakumajit@yahoo.com
+reportPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\Reports
+

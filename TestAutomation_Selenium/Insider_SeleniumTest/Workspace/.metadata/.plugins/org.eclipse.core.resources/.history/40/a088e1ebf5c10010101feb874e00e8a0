@@ -1,0 +1,144 @@
+package Utility.configuration;
+
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+
+
+public class ImagecaptureConfig extends ExtentRepotEx
+{
+
+	 Robot robot =null;
+	 BufferedImage screenFullImage=null;
+	 File output=null;
+	 File DestFile=null;
+	 public static String format = "jpg";
+	 public static String imagepath = properties.getProperty("reportPath")+"\\Report_"+ExtentRepotEx.timestamp+"\\Screenshot"+ExtentRepotEx.timestamp+"." + format;
+
+
+		public  void Selenium_takeSnapShot(WebDriver driver) throws Exception
+		{
+			//Convert web driver object to TakeScreenshot
+			TakesScreenshot scrShot =((TakesScreenshot)driver);
+			//Call getScreenshotAs method to create image file
+			File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+			//Move image file to new destination
+			 DestFile=new File(properties.getProperty("reportPath")+"\\Report_"+ExtentRepotEx.timestamp+"\\Screenshot_"+System.currentTimeMillis()+ "." + "jpg");
+			//Copy file at destination
+			FileUtils.copyFile(SrcFile, DestFile);
+
+		}
+
+		public void selenium_reportsnapshotPass(String detail)
+		{
+		   	try
+		   	{
+		   	   CommonFunctions cf=new CommonFunctions();
+		   	   //cf.pass(detail+ test.addScreenCapture("./Screenshot_"));/E:/Gaurav/Automation/Reports/Report_01-04-2019_02-52
+		   	   cf.pass(detail+ test.addScreenCapture(DestFile.getAbsolutePath().replace(properties.getProperty("reportPath")+"\\Report_"+ExtentRepotEx.timestamp+"\\","")));
+		   	   Thread.sleep(2000);
+		   	}catch(Exception e)
+		   	{
+		   		   e.printStackTrace();
+		   	}
+	    }
+
+
+		public void selenium_reportsnapshotFail(String detail)
+		{
+		   	try
+		   	{
+		   	   CommonFunctions cf=new CommonFunctions();
+		   	   //cf.pass(detail+ test.addScreenCapture("./Screenshot_"));/E:/Gaurav/Automation/Reports/Report_01-04-2019_02-52
+		   	   cf.fail(detail+ test.addScreenCapture(DestFile.getAbsolutePath().replace(properties.getProperty("reportPath")+"\\Report_"+ExtentRepotEx.timestamp+"\\","")));
+		   	   Thread.sleep(2000);
+		   	}catch(Exception e){
+		   		   e.printStackTrace();
+		   	}
+	    }
+
+ 	    public void capturesnapshot_Fail()
+ 	    {
+		  try
+		  {
+	            Thread.sleep(120);
+	            Robot robot1 = new Robot();
+
+	           // for full image capture
+	            Rectangle screenRect1 = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+	            BufferedImage screenFullImage1 = robot1.createScreenCapture(screenRect1);
+	            ImageIO.write(screenFullImage1, format, new File(imagepath));
+	            Thread.sleep(1000);
+	            //for partial image capture
+	            /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	            Rectangle captureRect = new Rectangle(0, 0, screenSize.width / 2, screenSize.height / 2);
+	            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+	            ImageIO.write(screenFullImage, format, new File(fileName));*/
+	        }
+	        catch (Exception ex) {
+	            System.out.println(ex);
+	        }
+	  }
+	  public void capturesnapshot()
+	  {
+		try
+		{
+
+
+            Thread.sleep(120);
+			robot=new Robot();
+
+           // for full image capture
+			Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+
+			screenFullImage = robot.createScreenCapture(screenRect);
+			 output=new File(properties.getProperty("reportPath")+"\\Report_"+ExtentRepotEx.timestamp+"\\Screenshot_"+System.currentTimeMillis()+ "." + "jpg");
+            ImageIO.write(screenFullImage, "jpg",output);
+            Thread.sleep(2000);
+
+            //for partial image capture
+            /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Rectangle captureRect = new Rectangle(0, 0, screenSize.width / 2, screenSize.height / 2);
+            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+            ImageIO.write(screenFullImage, format, new File(fileName));*/
+        }
+        catch (Exception e) {
+           e.printStackTrace();
+        }
+	  }
+      public void reportsnapshotPass(String detail)
+      {
+        	try
+        	{
+        	   CommonFunctions cf=new CommonFunctions();
+        	   //cf.pass(detail+ test.addScreenCapture("./Screenshot_"));/E:/Gaurav/Automation/Reports/Report_01-04-2019_02-52
+        	   cf.pass(detail+ test.addScreenCapture(output.getAbsolutePath().replace(properties.getProperty("reportPath")+"\\Report_"+ExtentRepotEx.timestamp+"\\","")));
+        	   Thread.sleep(2000);
+        	}catch(Exception e){
+        		   e.printStackTrace();
+            }
+      }
+
+      public void reportsnapshotFail(String detail)
+      {
+         try
+         {
+        	   CommonFunctions cf=new CommonFunctions();
+        	   //cf.pass(detail+ test.addScreenCapture("./Screenshot_"));
+        	   cf.fail(detail+test.addScreenCapture("./Screenshot"+ExtentRepotEx.timestamp+"." +"jpg"));
+        	   Thread.sleep(1000);
+   		   	   Thread.sleep(1000);
+          }catch(Exception e){
+        		   e.printStackTrace();
+           }
+      }
+}

@@ -1,0 +1,363 @@
+package PO.BCSDATA;
+
+import java.awt.AWTException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Set;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+
+
+
+public class OpenInsiderApp extends ExtentRepotEx
+{
+
+	public WebDriver driver;
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	
+	int WaitSeconds = 15;
+
+	int printwait = Integer.valueOf(properties.getProperty("PrintWait"));
+
+
+	public OpenInsiderApp(WebDriver driver)
+	{
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+	}
+
+
+	//Menubar Elements
+	By activitylogtab = By.xpath("//*[contains(@href,'/activitylog')]");
+
+	//Patients page Elements
+	By noheadermsg = By.xpath("//div[contains(text(),'No patient header(s) configured')]");
+
+	//Activity Log page Elements
+	By getlogbtn = By.xpath("//button[@name='btnGetLog']");
+	By exporttoexcelicon = By.xpath("//span[text()='Export to Excel']");
+	By logcount = By.xpath("//label[@id='lblActivitylogcount']");
+	By printicon = By.xpath("//button[@title='Print Results']");
+	By printpopup = By.xpath("//div[@id='ActivityLogList']");
+	By nologtext = By.xpath("//div[text()='No log(s) found']");
+	By datevalidation = By.xpath("//div[text()='Start date must be less than end date']");
+	By printlog=By.xpath("//span[text()='Print Logs']");//Added path by binal as changed
+
+	By fromdate = By.xpath("//input[@name='startDate']");
+	By selctfromdate = By.xpath("//*[contains(@class,'cell-today')]"); //ajit
+	By todate = By.xpath("//input[@name='endDate']");
+	By monthyeartab = By.xpath("//button[@type='button' and @aria-label='Choose month and year']");
+	By selectyear = By.xpath("//tbody[@role='grid']//span[text()='2024']");
+	By selectmonth = By.xpath("//tbody[@role='grid']//span[text()='May']");
+//	By selectfromdate = By.xpath("//tbody[@role='grid']//span[text()='2']");
+//	By selecttodate = By.xpath("//tbody[@role='grid']//span[text()='3']");
+	By selectinvalidfromdate = By.xpath("//tbody[@role='grid']//span[text()='25']");
+	By clickonSet = By.xpath("//span[text()='Set']");
+
+	//**********************************************************************************
+
+	public boolean click_activitylog_tab() throws InterruptedException
+	{
+		try{
+			return cb.click(activitylogtab);
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean click_getlog_button() throws InterruptedException
+	{
+		try{
+			return cb.click(getlogbtn);
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean verify_log_count() throws InterruptedException
+	{
+		try{
+			String value = cb.getText(logcount);
+			String[] splitvalue = value.split("\\s+");
+
+			if(Integer.valueOf(splitvalue[0])>=0)
+			{
+				return true;
+			}
+			else if (driver.findElement(nologtext).isDisplayed())
+			{
+				return true;
+
+			}
+			return false;
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+/*
+	public boolean verify_no_log_found_text() throws InterruptedException
+	{
+		try
+		{
+			WebElement nolog = driver.findElement(nologtext);
+			if(nolog.isDisplayed())
+			{
+				return true;
+
+			}
+			return true;
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+*/
+	public boolean verify_export_to_excel_icon() throws InterruptedException
+	{
+		try
+		{
+			return cb.isEnabled(exporttoexcelicon);
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean select_future_from_date() throws InterruptedException
+	{
+		try
+		{
+			//@ajit nakum
+			cb.click(fromdate);
+			Thread.sleep(2000);
+			cb.click(selctfromdate);
+			Thread.sleep(2000);
+			cb.click(clickonSet);
+			Thread.sleep(2000);
+			return true;
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean select_future_to_date() throws InterruptedException
+	{
+		try
+		{
+			cb.click(todate);
+			Thread.sleep(2000);
+
+			//@ajit nakum
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d");
+	        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("MM");
+
+	        LocalDate currentDate1 = LocalDate.now();
+
+	        List<WebElement> calendarDates = driver.findElements(By.xpath("//*[contains(@class,'cell-content')]"));
+
+	            LocalDate targetDate = currentDate1.plusDays(5);
+	            String targetDateString = targetDate.format(formatter);
+
+	            String tempcurrentmonth = currentDate1.format(formatter1);
+	            String targetDateString1 = targetDate.format(formatter1);
+
+	            boolean xyz = false;
+
+	            if(tempcurrentmonth.equals(targetDateString1))
+	            {
+	            	xyz = true;
+	            }
+
+	            System.out.println("Targer date: "+targetDateString);
+
+
+	            for (WebElement dateElement : calendarDates)
+	            {
+	            	if (dateElement.getText().equals(targetDateString) && xyz == false)
+	                {
+	            		xyz = true;
+
+	            		continue;
+	                }
+	            	try
+	            	{
+	                  if (dateElement.getText().equals(targetDateString))
+	                  {
+	                	JavascriptExecutor executor = (JavascriptExecutor)driver;
+	                	executor.executeScript("arguments[0].click();", dateElement);
+	                    dateElement.click();
+	                    Thread.sleep(3500);
+	                    System.out.println("Selected date: " + targetDateString);
+	                    WebElement st = driver.findElement(clickonSet);
+	                    JavascriptExecutor executor1 = (JavascriptExecutor)driver;
+	                	executor1.executeScript("arguments[0].click();", st);
+	                	st.click();
+	        			Thread.sleep(2500);
+	                    break;
+	                  }
+	            	}catch (Exception e) {
+						// TODO: handle exception
+
+					}
+	            }
+
+		//	cb.click(clickonSet);
+		//	Thread.sleep(2500);
+
+			return true;
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean select_invalid_from_date() throws InterruptedException
+	{
+		try
+		{
+			cb.click(fromdate);
+			Thread.sleep(2000);
+
+			//@ajit nakum
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d");
+	        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("MM");
+
+	        LocalDate currentDate1 = LocalDate.now();
+
+	        List<WebElement> calendarDates = driver.findElements(By.xpath("//*[contains(@class,'cell-content')]"));
+
+	            LocalDate targetDate = currentDate1.plusDays(7);
+	            String targetDateString = targetDate.format(formatter);
+
+	            String tempcurrentmonth = currentDate1.format(formatter1);
+	            String targetDateString1 = targetDate.format(formatter1);
+
+	            boolean xyz = false;
+
+	            if(tempcurrentmonth.equals(targetDateString1))
+	            {
+	            	xyz = true;
+	            }
+
+	            System.out.println("Targer date: "+targetDateString);
+
+
+	            for (WebElement dateElement : calendarDates)
+	            {
+	            	if (dateElement.getText().equals(targetDateString) && xyz == false)
+	                {
+	            		xyz = true;
+
+	            		continue;
+	                }
+	            	try
+	            	{
+	                  if (dateElement.getText().equals(targetDateString))
+	                  {
+	                	JavascriptExecutor executor = (JavascriptExecutor)driver;
+	                	executor.executeScript("arguments[0].click();", dateElement);
+	                    dateElement.click();
+	                    Thread.sleep(3500);
+	                    System.out.println("Selected date: " + targetDateString);
+	                    WebElement st = driver.findElement(clickonSet);
+	                    JavascriptExecutor executor1 = (JavascriptExecutor)driver;
+	                	executor1.executeScript("arguments[0].click();", st);
+	                	st.click();
+	        			Thread.sleep(2500);
+	                    break;
+	                  }
+	            	}catch (Exception e) {
+						// TODO: handle exception
+
+					}
+	            }
+
+
+	//		cb.click(clickonSet);
+	//		Thread.sleep(2000);
+			return true;
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean verify_date_validation_message() throws InterruptedException
+	{
+		try{
+			return cb.isDisplayed(datevalidation);
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+
+	public boolean verify_print_popup() throws InterruptedException, AWTException
+	{
+		try{
+			String parentWindow= driver.getWindowHandle();
+
+			cb.click(printlog);
+			Thread.sleep(printwait);
+
+			Set<String> allWindows = driver.getWindowHandles();
+			for(String curWindow : allWindows){
+			    driver.switchTo().window(curWindow);
+			}
+
+			if(cb.isDisplayed(printpopup)==true)
+			{
+				driver.close();
+				Thread.sleep(500);
+				driver.switchTo().window(parentWindow);
+				return true;
+			}
+			return false;
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
+		catch (Exception e1){
+			return false;
+		}
+	}
+}

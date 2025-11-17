@@ -1,0 +1,76 @@
+package PO.BCSDATA;
+
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+
+
+public class CareersQA_Po extends ExtentRepotEx
+{
+
+	public WebDriver driver;
+	
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	ImagecaptureConfig img = new ImagecaptureConfig();
+
+	int WaitSeconds = 15;
+
+	int stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+	int printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+
+	public CareersQA_Po(WebDriver driver) {
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+
+		stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+		printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+	}
+
+	//See all QA Jobs Elements
+	By SeeAllQAJobs = By.xpath("//div[@class='button-group d-flex flex-row']//a[text()='See all QA jobs']");
+	
+	//Filter Jobs Elements
+	By Location = By.xpath("//*[@id='select2-filter-by-location-container']");
+	
+
+	
+	//**********************************************************************************
+	public boolean click_See_All_QAJobs() throws InterruptedException
+	{
+		try{
+			WebElement Alljobs = driver.findElement(SeeAllQAJobs);
+			Alljobs.click();
+			Thread.sleep(stdwait);
+			
+			if(cb.isDisplayed(Location)==true)
+			{
+				return true;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+
+	
+}

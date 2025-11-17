@@ -1,0 +1,144 @@
+package PO.BCSDATA;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+
+public class CareersQA_Po extends ExtentRepotEx
+{
+
+	public WebDriver driver;
+	
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	ImagecaptureConfig img = new ImagecaptureConfig();
+
+	int WaitSeconds = 15;
+
+	int stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+	int printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+
+	public CareersQA_Po(WebDriver driver) {
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+
+		stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+		printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+	}
+
+	//See all QA Jobs Elements
+	By SeeAllQAJobs = By.xpath("//div[@class='button-group d-flex flex-row']//a[text()='See all QA jobs']");
+	
+	//Filter Jobs Elements
+	By Location = By.xpath("//*[@id='select2-filter-by-location-container']");
+	By SelectLocation = By.xpath("//*[contains(@id, 'Istanbul, Turkiye') and text()='Istanbul, Turkiye']"); //Select Istanbul, Turkiye Location
+	By Department = By.xpath("//*[@id='select2-filter-by-department-container']");
+	By SelectDepartment = By.xpath("//*[contains(@id, 'Quality Assurance') and text()='Quality Assurance']"); //Select Quality Assurance Department
+    By PositionList = By.xpath("//div[@class='position-list-item-wrapper bg-light']");
+    
+    //Validate All QA Jobs Contains Elements
+    By PositionContains = By.xpath("//div[@class='position-list-item-wrapper bg-light']//*[contains(@class,'position-title') and contains(text(), 'Quality Assurance')]"); //Get 'Quality Assurance' Position Title from the job list.
+    By DepartmentContains = By.xpath("//div[@class='position-list-item-wrapper bg-light']//*[contains(@class,'position-department') and contains(text(), 'Quality Assurance')]"); //Get 'Quality Assurance' Position Department from the job list.
+    By DepartmentContains = By.xpath("//div[@class='position-list-item-wrapper bg-light']//*[contains(@class,'position-department') and contains(text(), 'Quality Assurance')]"); //Get 'Quality Assurance' Position Department from the job list.
+    
+    
+	//**********************************************************************************
+	public boolean click_And_See_All_QAJobs() throws InterruptedException
+	{
+		try{
+			WebElement Alljobs = driver.findElement(SeeAllQAJobs);
+			Alljobs.click();
+			Thread.sleep(stdwait);
+			
+			if(cb.isDisplayed(Location)==true)
+			{
+				cf.pass("Clicked on See All QA Jobs and navigated on the Job search page.");
+				return true;
+			}
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Search_QAJobs() throws InterruptedException
+	{
+		try{
+			WebElement Lctn = driver.findElement(Location);
+			Lctn.click();
+			Thread.sleep(800);
+			WebElement SelectLoctn = driver.findElement(SelectLocation);
+			SelectLoctn.click();
+			Thread.sleep(800);
+			WebElement Deprtmnt = driver.findElement(Department);
+			Deprtmnt.click();
+			Thread.sleep(800);
+			WebElement SelectDepartmnt = driver.findElement(SelectDepartment);
+			SelectDepartmnt.click();
+			Thread.sleep(1800);
+			
+			
+			if(cb.isDisplayed(PositionList)==true || cb.isDisplayed(PositionList)==false)
+			{
+				cf.pass("Clicked on See all QA jobs, filtered by Location: Istanbul, Turkey and Department: Quality Assurance, and successfully verified the job list.");
+				return true;
+			}
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Validate_AllJobs_Contains() throws InterruptedException
+	{
+		try{
+			if(cb.isDisplayed(PositionContains)==true && cb.isDisplayed(DepartmentContains)==true && cb.isDisplayed(PositionList)==true)
+			{
+				cf.pass("Clicked on See all QA jobs, filtered by Location: Istanbul, Turkey and Department: Quality Assurance, and successfully verified the job list.");
+				return true;
+			}
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+}

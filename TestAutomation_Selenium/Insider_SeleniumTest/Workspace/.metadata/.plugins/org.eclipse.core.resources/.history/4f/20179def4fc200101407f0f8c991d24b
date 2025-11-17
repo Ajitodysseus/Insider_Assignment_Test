@@ -1,0 +1,111 @@
+package Implementation;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Properties;
+import org.testng.annotations.Test;
+
+import PO.BCSDATA.CareersQA_Po;
+import PO.BCSDATA.CompanyMenu_Po;
+import PO.BCSDATA.OpenInsiderApp_Po;
+import PO.CommonFunctionality.BaseClass;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.configuration.ConfigReader;
+
+public class InsiderApp_Test extends BaseClass {
+
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	String uname;
+	String pass;
+	boolean TestStepStatus;
+
+	@Test(priority = 1)
+	public void Insider_HomePage() throws InterruptedException, IOException {
+
+		try {
+			// Load properties
+			ConfigReader.loadConfig();
+			properties = ConfigReader.properties;
+
+			if (properties.getProperty("LaunchApplication").equalsIgnoreCase("True")) {
+
+				OpenInsiderApp_Po oi = new OpenInsiderApp_Po(driver);
+
+				cf.Info("Visit https://useinsider.com/ and check Insider home page is opened or not.");
+
+				String URL = properties.getProperty("Test_URL");
+				driver.get(URL);
+				Thread.sleep(5000);
+
+				TestStepStatus = oi.Validate_Application();
+				Thread.sleep(2000);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 2)
+	public void Validate_CompanyMenu() throws InterruptedException {
+
+		try {
+
+			if (properties.getProperty("CompanyMenu").equalsIgnoreCase("True")) {
+
+				CompanyMenu_Po cm = new CompanyMenu_Po(driver);
+
+				cf.Info("Select the Company menu in the navigation bar, select Careers and check Career page, its Locations, Teams, and Life at Insider blocks are open or not.");
+
+				TestStepStatus = cm.Select_Careers();
+				Thread.sleep(2000);
+
+				TestStepStatus = cm.Validate_Locations();
+				Thread.sleep(2000);
+
+				TestStepStatus = cm.Validate_LifeatInsider();
+				Thread.sleep(2000);
+
+				TestStepStatus = cm.Open_Teams();
+				Thread.sleep(2000);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test(priority = 3)
+	public void Validate_QAJobs() throws InterruptedException {
+
+		try {
+
+			// Load properties file
+			ConfigReader.loadConfig();
+			properties = ConfigReader.properties;
+
+			if (properties.getProperty("CareersQAJobs").equalsIgnoreCase("True")) {
+
+				CareersQA_Po cq = new CareersQA_Po(driver);
+
+				cf.Info("Go to https://useinsider.com/careers/quality-assurance/, click See all QA jobs, filter jobs by Location: Istanbul, Turkey, and Department: Quality Assurance, check the presence of the job list");
+
+				String URL = properties.getProperty("Test_CareerURL");
+				driver.get(URL);
+				Thread.sleep(5000);
+
+				TestStepStatus = cq.click_See_All_QAJobs();
+				Thread.sleep(2000);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

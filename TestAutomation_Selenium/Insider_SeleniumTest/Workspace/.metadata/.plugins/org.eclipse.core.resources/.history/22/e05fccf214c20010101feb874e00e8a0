@@ -1,0 +1,26 @@
+package Utility.configuration;
+
+import java.util.Properties;
+
+public class ConfigReader {
+
+    public static Properties properties;
+
+    public static void loadConfig() {
+    	try {
+    		properties = new Properties();
+
+            properties.load(
+                    ConfigReader.class.getClassLoader()
+                    .getResourceAsStream("Configuration.properties")
+            );
+
+            System.out.println("Properties loaded successfully!");
+
+        } catch (Exception e) {
+            System.out.println("Failed to load properties: " + e.getMessage());
+        }
+
+    }
+
+}

@@ -1,0 +1,82 @@
+package PO.BCSDATA;
+
+import java.awt.AWTException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Set;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.asserts.SoftAssert;
+
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+public class OpenInsiderApp_Po extends ExtentRepotEx {
+
+	public WebDriver driver;
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	ImagecaptureConfig img = new ImagecaptureConfig();
+
+	int WaitSeconds = 15;
+
+	int stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+	int printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+
+	public OpenInsiderApp_Po(WebDriver driver) {
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+
+		stdwait = Integer.parseInt(properties.getProperty("StandardWait", "5000"));
+		printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+	}
+
+	// **********************************************************************************
+
+	public boolean Validate_Application() throws InterruptedException {
+		try {
+			SoftAssert softAssert = new SoftAssert();
+
+			String Actualtitle = driver.getTitle();
+			System.out.println("Page title is: " + Actualtitle);
+
+			String expectedTitle = "#1 Leader in Individualized, Cross-Channel CX — Insider1";
+
+			softAssert.assertEquals(Actualtitle, expectedTitle, "Page title does not match!");
+			try {
+				softAssert.assertAll();
+				cf.pass("Title validation passed and The Insider Application is opened successfully.");
+			} catch (AssertionError ae) {
+				// cf.fail("Soft Assert Failed: " + ae.getMessage());
+				try {
+					img.Selenium_takeSnapShot(driver);
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+				img.selenium_reportsnapshotFail("Fail_: " + ae.fillInStackTrace());
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+
+	}
+
+}

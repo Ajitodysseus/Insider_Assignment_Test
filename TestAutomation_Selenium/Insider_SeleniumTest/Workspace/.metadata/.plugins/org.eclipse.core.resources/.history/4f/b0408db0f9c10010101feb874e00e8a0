@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Automation Suite">
+
+    <parameter name="browser" value="chrome" />
+    <!-- or value="firefox" if execute the script in firefox browsr--> 
+
+    <test name="Regression Test">
+        <classes>
+            <class name="YourTestClassName" />
+        </classes>
+    </test>
+
+</suite>

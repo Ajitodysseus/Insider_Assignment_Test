@@ -1,0 +1,263 @@
+package PO.CommonFunctionality;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class CommonBaseFuctions {
+
+	public WebDriver driver;
+	public static int Seconds = 15;
+	public Actions build;
+
+	public CommonBaseFuctions() {
+
+	}
+
+	public CommonBaseFuctions(WebDriver driver) {
+		this.driver = driver;
+		build = new Actions(driver);
+
+	}
+
+	// Created By Ajit Nakum
+
+	public void waitForElementPresent(final By element, int waitForSeconds) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, waitForSeconds);
+			wait.until(ExpectedConditions.presenceOfElementLocated(element));
+		} catch (NoSuchElementException e) {
+
+		} catch (Exception e1) {
+
+		}
+	}
+
+	public void waitForElementClickable(final By element, int waitForSeconds) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, waitForSeconds);
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+		} catch (NoSuchElementException e) {
+
+		} catch (Exception e1) {
+
+		}
+	}
+
+	public void clear(By by) {
+		try {
+			moveToElement(by);
+			driver.findElement(by).clear();
+		} catch (NoSuchElementException e) {
+
+		} catch (Exception e1) {
+
+		}
+	}
+
+	public void getHighlightElement(final WebElement element) {
+
+		try {
+			Wait<WebDriver> wait = new WebDriverWait(driver, Seconds);
+			// Wait for search to complete
+
+			wait.until(new ExpectedCondition<Boolean>() {
+
+				@Override
+				public Boolean apply(WebDriver webDriver) {
+					return element != null;
+				}
+			});
+			((JavascriptExecutor) driver).executeScript("arguments[0].style.border='1.5px solid red'", element);
+		} catch (NoSuchElementException e) {
+		} catch (Exception e1) {
+		}
+
+	}
+
+	public void moveToElement(By by) {
+		try {
+			build.moveToElement(driver.findElement(by)).build().perform();
+			getHighlightElement(driver.findElement(by));
+		} catch (NoSuchElementException e) {
+		} catch (Exception e1) {
+		}
+	}
+
+	public boolean sendKeys(By by, String value) {
+		try {
+			waitForElementPresent(by, Seconds);
+			clear(by);
+			driver.findElement(by).sendKeys(value);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		} catch (Exception e1) {
+			return false;
+		}
+	}
+
+	public boolean click(By by) {
+		try {
+			waitForElementClickable(by, Seconds);
+			moveToElement(by);
+			// driver.findElement(by).click();
+			// driver.findElement(by).sendKeys(Keys.ENTER);
+
+			WebElement we = driver.findElement(by);
+			JavascriptExecutor executor = (JavascriptExecutor) driver;
+			executor.executeScript("arguments[0].click()", we);
+
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		} catch (Exception e1) {
+			return false;
+		}
+	}
+
+	public boolean isDisplayed(By by) {
+		try {
+			moveToElement(by);
+			return driver.findElement(by).isDisplayed();
+		} catch (NoSuchElementException e) {
+			return false;
+		} catch (Exception e1) {
+			return false;
+		}
+	}
+
+	public boolean isEnabled(By by) {
+		try {
+			moveToElement(by);
+			return driver.findElement(by).isEnabled();
+		} catch (NoSuchElementException e) {
+			return false;
+		} catch (Exception e1) {
+			return false;
+		}
+	}
+
+	public String getText(By by) {
+		try {
+			moveToElement(by);
+			return driver.findElement(by).getText().trim();
+		} catch (NoSuchElementException e) {
+
+		} catch (Exception e1) {
+		}
+		return "";
+	}
+
+	public void switchToFrame(String Framname) {
+		try {
+			driver.switchTo().frame(Framname);
+		} catch (NoSuchElementException e) {
+
+		} catch (Exception e1) {
+
+		}
+	}
+
+	public void switchToDefault() {
+		try {
+			driver.switchTo().defaultContent();
+		} catch (NoSuchElementException e) {
+
+		} catch (Exception e1) {
+
+		}
+	}
+
+//========================================================================================================================
+
+	// method for to check element is present
+	public boolean isElementPresent(WebElement element) {
+		try {
+			element.isDisplayed();
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	// is enable
+	public boolean isEnable(WebElement element) {
+		try {
+			element.isEnabled();
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	// method for getCurrentdate
+	public String getCurrentDate() {
+
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
+		String strDate = dateFormat.format(new Date());
+		System.out.println("Current date is: " + strDate);
+		return strDate;
+	}
+
+	// Method to wait for a web element to be clickable
+	public void waitForElementClickable(WebElement element) {
+		new WebDriverWait(driver, 50).until(ExpectedConditions.elementToBeClickable(element));
+	}
+
+	// Method to click on Element
+	public void clickElement(WebElement element) throws InterruptedException {
+
+		waitForElementClickable(element);
+		element.click();
+	}
+
+	// Method to send keys to an Element
+	public void sendKeysElement(WebElement element, String text) throws InterruptedException {
+
+		waitForElementClickable(element);
+		element.clear();
+		element.sendKeys(text);
+	}
+
+	// Method to wait for a web element to be visible
+	public void waitForElementVisible(WebElement element) {
+		new WebDriverWait(driver, 40).until(ExpectedConditions.visibilityOf(element));
+	}
+
+	public void waitForElementIsPresent(By by) {
+		new WebDriverWait(driver, 40).until(ExpectedConditions.presenceOfElementLocated(by));
+	}
+
+	// Method to wait for a web element to be invisible
+	public void waitForElementInvisible(By by) {
+		new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOfElementLocated(by));
+	}
+
+	// Method to wait for a text to be visible in a Web Element
+	public void waitForTextVisible(WebElement element, String text) {
+		new WebDriverWait(driver, 30).until(ExpectedConditions.textToBePresentInElement(element, text));
+	}
+
+	public void waitForElementClickable(By by) {
+		new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(by));
+	}
+
+	// select method
+	public void selectElement(WebElement element, String Value) {
+		Select se = new Select(element);
+		se.selectByValue(Value);
+	}
+
+}

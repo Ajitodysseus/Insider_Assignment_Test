@@ -1,0 +1,32 @@
+package Utility.configuration;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+
+public class ConfigReader {
+
+    public static Properties properties;
+
+    public static void loadConfig() {
+    	try {
+    		properties = new Properties();
+
+    		InputStream input = ConfigReader.class.getClassLoader()
+    		        .getResourceAsStream("Configuration.properties");
+
+    		if (input == null) {
+    		    System.out.println("❌ Properties file NOT FOUND in classpath!");
+    		} else {
+    		    properties.load(input);
+    		    System.out.println("✔ Properties file loaded successfully!");
+    		    properties.forEach((k, v) -> System.out.println(k + " = " + v));
+    		}
+
+        } catch (Exception e) {
+            System.out.println("Error loading properties file: " + e.getMessage());
+        }
+
+    }
+
+}

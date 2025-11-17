@@ -1,0 +1,60 @@
+package PO.CommonFunctionality;
+
+import java.util.HashMap;
+import java.util.Map;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
+import Utility.ExtentReports.ExtentRepotEx;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class BaseClass extends ExtentRepotEx {
+
+	public WebDriver driver;
+
+	@BeforeSuite
+	@Parameters("browser") // browser parameter from testng.xml
+	public void setUp(String browser) {
+
+		try {
+
+			if (browser == null || browser.isEmpty()) {
+				browser = "chrome"; // default browser
+			}
+
+			if (browser.equalsIgnoreCase("chrome")) {
+
+				WebDriverManager.chromedriver().setup();
+
+				Map<String, Object> prefsMap = new HashMap<>();
+				prefsMap.put("profile.default_content_settings.popups", 0);
+
+				ChromeOptions options = new ChromeOptions();
+				options.setExperimentalOption("prefs", prefsMap);
+				options.addArguments("--test-type");
+				options.addArguments("--disable-extensions");
+
+				driver = new ChromeDriver(options);
+			} else if (browser.equalsIgnoreCase("firefox")) {
+
+				WebDriverManager.firefoxdriver().setup();
+
+				FirefoxOptions options = new FirefoxOptions();
+				options.addPreference("dom.disable_open_during_load", false);
+
+				driver = new FirefoxDriver(options);
+			} else {
+				throw new IllegalArgumentException("Invalid browser: " + browser);
+			}
+
+			driver.manage().window().maximize();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+}

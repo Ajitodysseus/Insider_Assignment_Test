@@ -1,0 +1,106 @@
+ActivityLog=False
+Addnewuser=B790856
+Address1=xyz society
+Address2=xyz society
+AdminPassword=YWRtaW4\=
+AdminUsername=admin
+AllDataEDPatientName=KUHNS, LILA A
+AllDataPatientName=GUTIERREZ ESCOBAR, GEOVANY A
+Appointment=False
+AppointmentPatientName=eval
+AttendingProvider=Nair, Praveen
+CareLevel=Acute Care
+DB_EDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN EXISTS (SELECT 1 FROM Orders o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM Results r WHERE r.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM ClinicalDocs d WHERE d.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM FlowSheet f WHERE f.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM ScheduledEventOccurrence s WHERE s.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM PatientPrescription pp WHERE pp.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+DB_Query=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN EXISTS (SELECT 1 FROM Orders o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM Results r WHERE r.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM ClinicalDocs d WHERE d.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM FlowSheet f WHERE f.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM ScheduledEventOccurrence s WHERE s.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END + CASE WHEN EXISTS (SELECT 1 FROM PatientPrescription pp WHERE pp.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+Dashboard=True
+Database=True
+DemographicParameter=Allergies
+DemographicPositionParameter=Birth Dates
+Documents=True
+EDDashboard=True
+EDeMARPatientName=KUHNS, LILA A
+FacilityName=General Hospital MDRX 
+FilterBy_Status=F
+Filter_OrderStatus=Active
+FirstName=Automation
+Flowsheet=True
+GUPassword=QWx0ZXJhQDIwMjU\=
+GUUserLogin=False
+GUUsername=131366
+Gender=Female
+HeaderConfig=False
+HealthManager=True
+InpatientOnly=True
+Label=True
+LastName=Test
+LocationWise=True
+Login=True
+MiddleName=A.
+NoData=False
+NoDocEDPatientName=ISLAM, YOUSUF
+NoDocEDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM ClinicalDocs o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoDocPatientName=SPERONI, BRYAN
+NoDocQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM ClinicalDocs o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoFlowsheetEDPatientName=MADR, RIANNA N
+NoFlowsheetEDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM FlowSheet o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoFlowsheetPatientName=ROMAINE, JEANNE M
+NoFlowsheetQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM FlowSheet o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoHealthManagerEDPatientName=KUHNS, LILA A
+NoHealthManagerEDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM ScheduledEventOccurrence o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoHealthManagerPatientName=ROMAINE, JEANNE M
+NoHealthManagerQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM ScheduledEventOccurrence o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoOrderEDPatientName=OLSEN, DIANA M
+NoOrderEDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM Orders o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoOrderPatientName=ROMAINE, JEANNE M
+NoOrderQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM Orders o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoPrescriptionEDPatientName=MADR, RIANNA N
+NoPrescriptionEDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM PatientPrescription o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoPrescriptionPatientName=REID, JUSTINE M
+NoPrescriptionQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM PatientPrescription o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoResultEDPatientName=WALSHON, DARREN P
+NoResultEDQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM Results o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 1) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+NoResultPatientName=ROMAINE, JEANNE M
+NoResultQuery=WITH PatientMatches AS (SELECT p.ClientDisplayName,(CASE WHEN NOT EXISTS (SELECT 1 FROM Results o WHERE o.ClientVisitGUID \= p.ClientVisitGUID) THEN 1 ELSE 0 END) AS MatchCount FROM PatientInfo p WHERE ISNULL(p.ED_Board, 0) \= 0) SELECT TOP 1 ClientDisplayName FROM PatientMatches ORDER BY MatchCount DESC;
+Order_Name=Consult
+Patient_Name=GUTIERREZ ESCOBAR, GEOVANY A
+Prescription=True
+PrintWait=20000
+PropertyPath=C\:\\GMS\\QA\\Ajit\\BCSV4_Automation\\BCSV4_Automation\\Workspace\\BCS_Automation\\src\\main\\java\\Utility\\configuration\\Configuraion.properties
+Provider=True
+ProviderReportFilter=False
+Provider_Name=Aji
+Provider_Report=Alan
+RegistrarPassword=YWRtaW4\=
+RegistrarUsername=admin\t
+Registration=False
+Reports=True
+SearchBy_Author=Zeba
+SearchBy_Date=04/27/2017
+SearchBy_Name=Test
+SearchBy_SignStatus=Signed in Full
+SearchBy_Status=Complete
+SearchEDPatientName=KUHNS, LILA A
+SearchLocation=2
+SearchPatientName=GUTIERREZ ESCOBAR, GEOVANY A
+SearchProvider=ser
+SocialSecurity=111-11-1111
+SortingFiltering=False
+StandardWait=5000
+SurgicalSchedule=True
+Unit=Emergency Dept MDRX
+UnitFilter=False
+Unit_Name=All
+UserMastertab=False
+V4url=http\://s19pj07580/bcs/login
+VisitType=Inpatient
+Visit_Type=ADM
+Visit_Type1=All
+Zip=30005
+applicationbrowser=Chrome
+db.password=ZG93bnRpbWU\=
+db.url=jdbc\:sqlserver\://S19PJ07581\:1433;database\=BCS_Prod;encrypt\=false
+db.username=downtime
+eMARPatientName=GUTIERREZ ESCOBAR, GEOVANY A
+emailaddress=GMSBA_AppsSupport@alteradh.com
+reportPath=C\:\\GMS\\QA\\Ajit\\BCSV4_Automation\\BCSV4_Automation\\Workspace\\BCS_Automation\\Reports
+url=http\://s19pj07580/bcs/login

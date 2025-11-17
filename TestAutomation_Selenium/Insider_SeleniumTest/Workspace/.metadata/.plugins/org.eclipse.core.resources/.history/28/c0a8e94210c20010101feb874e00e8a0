@@ -1,0 +1,45 @@
+# Author: Ajit Nakum
+
+ActivityLog=False
+Addnewuser=B790856
+Address1=xyz society
+Address2=xyz society
+AdminPassword=YWRtaW4\=
+AdminUsername=admin
+AllDataEDPatientName=KUHNS, LILA A
+AllDataPatientName=GUTIERREZ ESCOBAR, GEOVANY A
+Appointment=False
+AppointmentPatientName=eval
+AttendingProvider=Nair, Praveen
+CareLevel=Acute Care
+Dashboard=True
+Database=True
+DemographicParameter=Allergies
+DemographicPositionParameter=Birth Dates
+Documents=True
+EDDashboard=True
+EDeMARPatientName=KUHNS, LILA A
+FacilityName=General Hospital MDRX 
+FilterBy_Status=F
+Filter_OrderStatus=Active
+FirstName=Automation
+Flowsheet=True
+GUPassword=QWx0ZXJhQDIwMjU\=
+GUUserLogin=False
+GUUsername=131366
+Gender=Female
+HeaderConfig=False
+HealthManager=True
+InpatientOnly=True
+Label=True
+LastName=Test
+LocationWise=True
+Login=True
+MiddleName=A.
+NoData=False
+
+PropertyPath=C\:\\GMS\\QA\\Ajit\\BCSV4_Automation\\BCSV4_Automation\\Workspace\\BCS_Automation\\src\\main\\java\\Utility\\configuration\\Configuraion.properties
+Test_URL=http://s19pj07580/bcs/login
+emailaddress=nakumajit@gmail.com;nakumajit@yahoo.com
+reportPath=C\:\\GMS\\QA\\Ajit\\BCSV4_Automation\\BCSV4_Automation\\Workspace\\BCS_Automation\\Reports
+
