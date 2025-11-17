@@ -1,0 +1,77 @@
+package PO.CommonFunctionality;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ConfigReader;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+//Ajit Nakum
+public class BaseClass extends ExtentRepotEx {
+
+    public WebDriver driver;
+    public static Properties properties;
+
+    @BeforeSuite
+    public void setUp() {
+
+        try {
+            // LOAD PROPERTIES file
+            ConfigReader.loadConfig();
+            properties = ConfigReader.properties;
+
+            String browser = properties.getProperty("browser");
+
+            if (browser == null) {
+                throw new RuntimeException("Browser is not defined in Configuration.properties file..!");
+            }
+
+            browser = browser.trim();
+
+            if (browser.equalsIgnoreCase("chrome")) {
+            	
+                WebDriverManager.chromedriver().setup();
+
+                Map<String, Object> prefsMap = new HashMap<>();
+                prefsMap.put("profile.default_content_settings.popups", 0);
+
+                ChromeOptions options = new ChromeOptions();
+                options.setExperimentalOption("prefs", prefsMap);
+                options.addArguments("--disable-extensions");
+
+                driver = new ChromeDriver(options);
+            }
+            else if (browser.equalsIgnoreCase("firefox")) {
+
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver(new FirefoxOptions());
+            }
+            else {
+                throw new IllegalArgumentException("Invalid browser : " + browser);
+            }
+
+            driver.manage().window().maximize();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @AfterSuite
+    public void tearDown() {
+        if (driver != null) {
+        	driver.close();
+            driver.quit();   
+            System.out.println("Browser closed successfully");
+        }
+    }
+
+}

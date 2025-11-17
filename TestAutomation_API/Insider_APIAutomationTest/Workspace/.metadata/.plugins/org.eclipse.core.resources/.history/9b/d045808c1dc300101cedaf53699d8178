@@ -1,0 +1,8 @@
+# Author: Ajit Nakum
+
+LaunchApplication=True
+CompanyMenu=True
+CareersQAJobs=True
+
+reportPath=C:\\Ajit\\Insider\\Insider_SeleniumTest\\Workspace\\Insider_Automation\\Reports
+

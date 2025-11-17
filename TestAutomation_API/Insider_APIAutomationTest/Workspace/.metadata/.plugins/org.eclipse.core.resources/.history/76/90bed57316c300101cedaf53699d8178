@@ -1,0 +1,175 @@
+package Implementation;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import junit.framework.Assert;
+
+import org.json.simple.JSONObject;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PetStoreCRUDTest {
+
+    int petId = 5001;   //This is a static test pet id
+
+    @BeforeClass
+    public void setup() {
+        RestAssured.baseURI = "https://petstore.swagger.io/v2";
+    }
+
+    //POST for create a new pet
+    @Test(priority = 1)
+    public void createPet() {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", petId);              
+        map.put("name", "Max");
+        map.put("status", "available");
+
+        JSONObject request = new JSONObject(map);
+
+        System.out.println("Request Body: " + request.toJSONString());
+
+        // Send POST request
+        Response response =
+            given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(request.toJSONString())
+            .when()
+                .post("/pet")
+            .then()
+                .statusCode(200)              // Petstore returns 200 for POST
+                .body("id", equalTo(petId))             
+                .body("name", equalTo("Max"))
+                .body("status", equalTo("available"))
+                .log().all()
+                .extract().response();
+
+        // Print response in the console
+        System.out.println("POST Result Body: " + response.asString());
+        System.out.println("POST Result Status Code: " + response.getStatusCode());
+    }
+
+
+    // GET for Read/Fetch/Get the created pet
+    @Test(priority = 2)
+    public void getPet() {
+
+        Response response = 
+            given()
+                .contentType(ContentType.JSON)
+                .pathParam("petId", petId)
+            .when()
+                .get("/pet/{petId}")
+            .then()
+                .statusCode(200)
+                .body("id", equalTo(petId))
+                .body("name", equalTo("Max"))
+                .log().all()
+                .extract().response();   //extract the response here.
+
+        System.out.println("GET Result Body: " + response.asString());
+        System.out.println("GET Status Code: " + response.getStatusCode());
+        
+        int statuscode = response.getStatusCode();
+        
+        Assert.assertEquals(statuscode, 200);
+    }
+
+    // PUT for Update the pet details.
+    @Test(priority = 3)
+    public void updatePet() {
+
+    	Map<String, Object> map = new HashMap<>();
+        map.put("id", petId);              
+        map.put("name", "Tommy");
+        map.put("status", "sold");
+
+        JSONObject request = new JSONObject(map);
+ 
+        Response response =
+        given()
+              .contentType(ContentType.JSON)
+              .accept(ContentType.JSON)
+              .body(request.toJSONString())
+        .when()
+                .put("/pet")
+        .then()
+                .statusCode(200)
+                 .body("name", equalTo("Tommy"))
+                 .body("status", equalTo("sold"))
+                 .log().all()
+                 .extract().response();
+        
+        int statuscode = response.getStatusCode();
+        
+        Assert.assertEquals(statuscode, 200);
+    }
+
+    // DELETE for Remove/delete the pet.
+    @Test(priority = 4)
+    public void deletePet() {
+
+    	Response response =
+        given()
+                .pathParam("petId", petId)
+        .when()
+                .delete("/pet/{petId}")
+        .then()
+                .statusCode(200)
+                .body("message", equalTo(String.valueOf(petId)))
+                .log().all()
+                .extract().response();
+        
+        int statuscode = response.getStatusCode();
+        
+        Assert.assertEquals(statuscode, 200);
+    }
+
+    // ====================================================*************************=============================================
+    
+    //NEGATIVE TEST for Get Deleted/Invalid Pet(404)
+    @Test(priority = 5)
+    public void getPetNegative() {
+
+    	Response response =
+        given()
+                .pathParam("petId", petId)
+        .when()
+                .get("/pet/{petId}")
+        .then()
+                .statusCode(404)
+                .body("message", containsString("Pet not found"))
+                .log().all()
+                .extract().response();
+    	
+    	System.out.println("Negative GET Status Code: " + response.getStatusCode());
+        System.out.println("Negative GET Body: " + response.asString());
+        
+        int statuscode = response.getStatusCode();
+        
+        Assert.assertEquals(statuscode, 404);
+        
+    }
+
+    //NEGATIVE TEST for Create Pet with Invalid JSON.
+    @Test(priority = 6)
+    public void createPetInvalidJson() {
+
+        String invalidPayload = "{ \"id\": , \"name\": \"Invalid\" }"; // incorrect JSON
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(invalidPayload)
+        .when()
+                .post("/pet")
+        .then()
+                .statusCode(400); // Bad Request
+    } 
+}

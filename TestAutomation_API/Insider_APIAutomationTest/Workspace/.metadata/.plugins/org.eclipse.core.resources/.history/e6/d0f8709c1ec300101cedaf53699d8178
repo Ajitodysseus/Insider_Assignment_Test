@@ -1,0 +1,8 @@
+# Author: Ajit Nakum
+
+LaunchApplication=True
+CompanyMenu=True
+CareersQAJobs=True
+
+reportPath=C:\\Ajit\\Insider\\Insider_APIAutomationTest\\Workspace\\Insider_APIAutomation\\Reports
+

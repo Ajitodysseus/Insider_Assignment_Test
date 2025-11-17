@@ -1,0 +1,194 @@
+package PO.InsiderDATA;
+
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+//Ajit Nakum
+public class CompanyMenu_Po extends ExtentRepotEx {
+
+	public WebDriver driver;
+
+	CommonFunctions cf = new CommonFunctions();
+	CommonBaseFuctions cb;
+	ImagecaptureConfig img = new ImagecaptureConfig();
+
+	int WaitSeconds = 15;
+
+	int stdwait = Integer.parseInt(properties.getProperty("StandardWait", "7000"));
+	int printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+
+	public CompanyMenu_Po(WebDriver driver) {
+		this.driver = driver;
+		cb = new CommonBaseFuctions(driver);
+
+		stdwait = Integer.parseInt(properties.getProperty("StandardWait", "7000"));
+		printwait = Integer.parseInt(properties.getProperty("PrintWait", "3000"));
+	}
+
+	// Company tab Elements
+	By Company = By.xpath("//a[@id='navbarDropdownMenuLink' and contains(text(), 'Company')]");
+	By Careers = By.xpath("//a[@class='dropdown-sub' and contains(text(), 'Careers')]");
+
+	// Location Elements
+	By OurLocations = By.xpath("//section[@id='career-our-location']//h3[contains(text(), 'Our Locations')]");
+	By SlideLocations = By.xpath("//i[@class='icon-arrow-right location-slider-next ml-4 text-xsmall text-dark']");
+	By GetLocations = By.xpath("//ul[@class='glide__slides']");
+	
+	// Life at Insider Elements
+	By Life = By.xpath("//div[@class='elementor-widget-wrap elementor-element-populated e-swiper-container'] //h2[contains(text(), 'Life at Insider')]");
+	By SlideImages = By.xpath("//div[@class='elementor-carousel-image']");
+	
+	//Teams Elements
+	By Teams = By.xpath("//a[@class='btn btn-outline-secondary rounded text-medium mt-5 mx-auto py-3 loadmore' and text()='See all teams']");
+	By Teamname = By.xpath("//div[contains(@class, 'job-title')]//h3[text()='Quality Assurance']");
+	
+	
+	// **********************************************************************************
+
+	public boolean Select_Careers() throws InterruptedException {
+		try {
+			
+			WebElement cmpny = driver.findElement(Company);
+			WebElement creer = driver.findElement(Careers);
+			
+			Actions action = new Actions(driver);
+			action.moveToElement(cmpny).perform();
+			action.moveToElement(creer).click().perform();
+			Thread.sleep(stdwait);
+
+			if (cb.isDisplayed(OurLocations) == true && cb.isDisplayed(Life) == true && cb.isDisplayed(Teams) == true) {
+				cf.pass("Career is selected successfully under the comapny tab and displaed/opened the Locations, Life at Insider, and Teams.");
+				return true;
+			}
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Validate_Locations() throws InterruptedException {
+		try {
+			
+			WebElement nextBtn = driver.findElement(SlideLocations);
+			
+			List<WebElement> captions = driver.findElements(GetLocations);
+
+			for (WebElement caption : captions) {
+			    System.out.println("Locations: " +caption.getText());
+			  //  cf.pass("Locations: " +caption.getText());
+			}
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			for (int i = 0; i < 20; i++) {
+				js.executeScript("arguments[0].scrollIntoView(true);", nextBtn);
+			    js.executeScript("arguments[0].click();", nextBtn);
+			    Thread.sleep(1000);
+			}
+			    cf.pass("The location blocks are opened and sliding correctly.");
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Validate_LifeatInsider() throws InterruptedException {
+		try {
+			
+			WebElement slides = driver.findElement(SlideImages);
+			
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			for (int i = 0; i < 6; i++) {
+				js.executeScript("arguments[0].scrollIntoView(true);", slides);
+			    js.executeScript("arguments[0].click();", slides);
+			    Thread.sleep(1000);
+			}
+			    cf.pass("The Life at Insider blocks are opened and sliding correctly.");
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+	
+	public boolean Open_Teams() throws InterruptedException {
+		try {
+			
+			WebElement clickTeam = driver.findElement(Teams);
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView({block: 'center'});", clickTeam);
+
+			try {
+			    clickTeam.click();
+			} catch (Exception e) {
+			    js.executeScript("arguments[0].click();", clickTeam);
+			}
+			Thread.sleep(stdwait);
+			
+			if(cb.isDisplayed(Teamname)==true)
+			{
+				cf.pass("The Teams blocks are opened and opened successfully.");
+				return true;
+			}
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				img.Selenium_takeSnapShot(driver);
+			} catch (Exception e1) {
+
+				e1.printStackTrace();
+			}
+			img.selenium_reportsnapshotFail("Fail_: " + e.fillInStackTrace());
+
+			return false;
+		}
+	}
+
+}

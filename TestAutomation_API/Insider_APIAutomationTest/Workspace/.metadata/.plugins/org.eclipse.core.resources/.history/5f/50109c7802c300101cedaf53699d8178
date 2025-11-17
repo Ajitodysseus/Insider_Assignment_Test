@@ -1,0 +1,29 @@
+package PO.InsiderDATA;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import PO.CommonFunctionality.CommonBaseFuctions;
+import PO.CommonFunctionality.CommonFunctions;
+import Utility.ExtentReports.ExtentRepotEx;
+import Utility.configuration.ImagecaptureConfig;
+
+//Ajit Nakum
+public class POST_Test extends ExtentRepotEx
+{
+
+	given()
+    .contentType("application/json")
+    .body("{\"id\":101, \"name\":\"Tommy\", \"status\":\"available\"}")
+.when()
+    .post("https://petstore.swagger.io/v2/pet")
+.then()
+    .statusCode(200)
+    .body("name", equalTo("Tommy"));
+		
+}
